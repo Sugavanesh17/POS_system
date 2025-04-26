@@ -43,7 +43,7 @@ const Greetings = () => {
         <h1 className="text-[#F5F5F5] text-3xl font-bold tracking-wide w-[130px]">
           {formatTime(dateTime)}
         </h1>
-        <p className="text-[#ababa] text-sm">{formatDate(dateTime)}</p>
+        <p className="text-[#ababab] text-sm">{formatDate(dateTime)}</p>
       </div>
     </div>
   );
