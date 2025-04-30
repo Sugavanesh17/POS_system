@@ -38,7 +38,7 @@ const Tables = () => {
       <div className="flex flex-wrap gap-5 px-10 py-5 overflow-y-scroll h-[700px] scrollbar-hide">
         {
           tables.map((table) => (
-            <TableCard key={table.id} id={table.id} name={table.name} status={table.status} initials={table.initial} />
+            <TableCard key={table.id} id={table.id} name={table.name} status={table.status} initials={table.initial} seats={table.seats} />
           ))
         }
       </div>

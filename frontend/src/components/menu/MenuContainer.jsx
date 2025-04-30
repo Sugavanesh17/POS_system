@@ -28,10 +28,10 @@ const MenuContainer = () => {
               className="flex flex-col items-start justify-between p-4 rounded-lg h-[100px] cursor-pointer"
               style={{ backgroundColor: menu.bgColor }}
               onClick={() => {
-                setSelected(menu)
+                setSelected(menu);
                 setItemId(0);
                 setItemCount(0);
-            }}
+              }}
             >
               <div className="flex items-center justify-between w-full">
                 <h1 className="text-[$f5f5f5] text-lg font-semibold">
@@ -60,10 +60,12 @@ const MenuContainer = () => {
               hover:bg-[#2a2a2a] bg-[#1a1a1a]"
               >
                 <div className="flex items-start justify-between">
-                <h1 className="text-[#f5f5f5] text-lg font-semibold">
-                  {menu.name}
-                </h1>
-                <button className="bg-[#2e4a40] text-[#02ca3a] p-2 rounded-lg cursor-pointer"><FaShoppingCart size={20}/></button>
+                  <h1 className="text-[#f5f5f5] text-lg font-semibold">
+                    {menu.name}
+                  </h1>
+                  <button className="bg-[#2e4a40] text-[#02ca3a] p-2 rounded-lg cursor-pointer">
+                    <FaShoppingCart size={20} />
+                  </button>
                 </div>
                 <div className="flex items-center justify-between w-full">
                   <p className="text-[#ababab] text-sm font-semibold">

@@ -2,14 +2,21 @@ import React from "react";
 import BottomNav from "../components/shared/BottomNav";
 import BackButton from "../components/shared/BackButton";
 import { MdRestaurantMenu } from "react-icons/md";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import MenuContainer from "../components/menu/MenuContainer";
-import { RiDeleteBin2Fill } from "react-icons/ri";
-import { FaNotesMedical } from "react-icons/fa";
 import CustomerInfo from "../components/menu/CustomerInfo";
 import CartInfo from "../components/menu/CartInfo";
 import Bill from "../components/menu/Bill";
 
 const Menu = () => {
+  // useEffect(() => {
+  //   document.title = "POS | Menu";
+  // }, []);
+
+  const customerData = useSelector((state) => state.customer);
+  // console.log(customerData);
+
   return (
     <section className="bg-[#1f1f1f] h-[calc(100vh-5rem)] overflow-y-scroll scrollbar-hide flex gap-3">
       {/* Left Div */}
@@ -25,8 +32,8 @@ const Menu = () => {
             <div className="flex items-center gap-3 cursor-pointer">
               <MdRestaurantMenu className="text-[#F5F5F5] text-4xl" />
               <div className="flex flex-col items-start">
-                <h1 className="text-md text-[#F5F5F5]">Customer name</h1>
-                <p className="text-xs text-[#ababab]">Table No:2</p>
+                <h1 className="text-md text-[#F5F5F5]">{customerData.customerName || "Customer name"}</h1>
+                <p className="text-xs text-[#ababab]">{customerData.table || "N/A"}</p>
               </div>
             </div>
           </div>
