@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+
 const orderSchema = new mongoose.Schema(
   {
     customerDetails: {
@@ -21,7 +22,7 @@ const orderSchema = new mongoose.Schema(
       totalWithTax: { type: Number, required: true },
     },
     items: [],
-    // table: { type: mongoose.Schema.Types.ObjectId, ref: "Table" },
+    table: { type: mongoose.Schema.Types.ObjectId, ref: "Table" },
     // paymentMethod: String,
     // paymentData: {
     //   razorpay_order_id: String,
