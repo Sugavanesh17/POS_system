@@ -11,7 +11,7 @@ import { enqueueSnackbar } from "notistack";
 import { useMutation } from "@tanstack/react-query";
 import { removeAllItems } from "../../redux/slices/cartSlice";
 import { removeCustomer } from "../../redux/slices/customerSlice";
-
+// import Invoice from "../invoice/Invoice";
 
 function loadScript(src) {
   return new Promise((resolve) => {
@@ -83,6 +83,32 @@ const Bill = () => {
             const verification = await verifyPaymentRazorpay(response);
             console.log(verification);
             enqueueSnackbar(verification.data.message, { variant: "success" });
+
+            // Place the order
+            const orderData = {
+              customerDetails: {
+                name: customerData.customerName,
+                phone: customerData.customerPhone,
+                guests: customerData.guests,
+              },
+              orderStatus: "In Progress",
+              bills: {
+                total: total,
+                tax: tax,
+                totalWithTax: totalPriceWithTax,
+              },
+              items: cartData,
+              table: customerData.table.tableId,
+              paymentMethod: paymentMethod,
+              paymentData: {
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+              },
+            };
+
+            setTimeout(() => {
+              orderMutation.mutate(orderData);
+            }, 1500);
           },
           prefill: {
             name: customerData.name,
@@ -167,7 +193,7 @@ const Bill = () => {
     <>
       <div className="flex items-center justify-between px-5 mt-2">
         <p className="text-xs text-[#ababab] font-medium mt-2">
-          Items({cartData.length})
+          Items({cartData.lenght})
         </p>
         <h1 className="text-[#f5f5f5] text-md font-bold">
           ₹{total.toFixed(2)}
@@ -179,7 +205,7 @@ const Bill = () => {
       </div>
       <div className="flex items-center justify-between px-5 mt-2">
         <p className="text-xs text-[#ababab] font-medium mt-2">
-          Total With tax
+          Total With Tax
         </p>
         <h1 className="text-[#f5f5f5] text-md font-bold">
           ₹{totalPriceWithTax.toFixed(2)}
@@ -203,20 +229,24 @@ const Bill = () => {
           Online
         </button>
       </div>
-      <div className="flex items-center gap-3 px-5 mt-5">
-        <button className="bg-[#025cca] px-4 py-3 w-full rounded-lg text-[#ababab] text-lg">
+
+      <div className="flex items-center gap-3 px-5 mt-4">
+        <button className="bg-[#025cca] px-4 py-3 w-full rounded-lg text-[#f5f5f5] font-semibold text-lg">
           Print Receipt
         </button>
         <button
           onClick={handlePlaceOrder}
-          className="bg-[#f6b100] px-4 py-3 w-full rounded-lg text-[#1f1f1f] text-lg"
+          className="bg-[#f6b100] px-4 py-3 w-full rounded-lg text-[#1f1f1f] font-semibold text-lg"
         >
-          Pay Online
+          Place Order
         </button>
       </div>
+
       <br />
-      <br />
-      <br />
+<br />
+      {/* {showInvoice && (
+        <Invoice orderInfo={orderInfo} setShowInvoice={setShowInvoice} />
+      )} */}
     </>
   );
 };

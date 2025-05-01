@@ -35,7 +35,7 @@ const Menu = () => {
                 <h1 className="text-md text-[#F5F5F5]">
                   {customerData.customerName || "Customer name"}
                 </h1>
-                <p className="text-xs text-[#ababab]">
+                <p className="text-xs text-[#ababab]">Table: 
                   {customerData.table?.tableNo || "N/A"}
                 </p>
               </div>

@@ -4,7 +4,7 @@ import BackButton from "../components/shared/BackButton";
 import TableCard from "../components/tables/TableCard";
 import { useState } from "react";
 import { tables } from "../constants";
-import { useQuery,keepPreviousData } from "@tanstack/react-query";
+import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { getTables } from "../https";
 
 const Tables = () => {
@@ -55,6 +55,7 @@ const Tables = () => {
       <div className="flex flex-wrap gap-5 px-10 py-5 overflow-y-scroll h-[700px] scrollbar-hide">
         {resData?.data.data.map((table) => (
           <TableCard
+            key={table._id}
             id={table._id}
             name={table.tableNo}
             status={table.status}
