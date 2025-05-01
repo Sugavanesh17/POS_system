@@ -27,9 +27,11 @@ const register = async (req, res, next) => {
       .status(201)
       .json({ success: true, message: "New user created!", data: newUser });
   } catch (error) {
+    console.error("Register Error: ", error); // Add this line to log errors
     next(error);
   }
 };
+
 
 const login = async (req, res, next) => {
   try {

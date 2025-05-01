@@ -2,6 +2,10 @@ import React from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { useMutation } from '@tanstack/react-query';
+import { enqueueSnackbar } from 'notistack';
+import {login} from "../../https/index.js"
+import { setUser } from '../../redux/slices/userSlice.js';
 
 
 const Login = () => {
@@ -19,8 +23,23 @@ const Login = () => {
   
     const handleSubmit = (e) => {
       e.preventDefault();
-      console.log(formData);
+      loginMutation.mutate(formData);
     }
+
+    const loginMutation = useMutation({
+        mutationFn: (reqData) => login(reqData),
+        onSuccess: (res) => {
+            const { data } = res;
+            console.log(data);
+            const { _id, name, email, phone, role } = data.data;
+            dispatch(setUser({ _id, name, email, phone, role }));
+            navigate("/");
+        },
+        onError: (error) => {
+          const { response } = error;
+          enqueueSnackbar(response.data.message, { variant: "error" });
+        }
+      })
 
     return (
         <div>

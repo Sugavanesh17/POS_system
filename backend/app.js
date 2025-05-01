@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const connectDB = require("./config/database");
 const config = require("./config/config");
+const cors = require("cors");
 const globalErrorHandler = require("./middlewares/globalErrorHandler");
 const cookieParser = require("cookie-parser");
 
@@ -14,6 +15,10 @@ connectDB();
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors({
+    credentials: true,
+    origin: ['http://localhost:5173']
+}))
 
 app.get("/", (req,res) => {
     res.json({message : "Hello from POS Server!"});

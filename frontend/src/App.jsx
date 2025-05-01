@@ -1,27 +1,83 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useLocation } from "react-router-dom";
-import { Home, Auth, Orders, Menu } from "./pages";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+  Navigate,
+} from "react-router-dom";
+import { Home, Auth, Orders, Tables, Menu } from "./pages";
 import Header from "./components/shared/Header";
-import Tables from "./pages/Tables";
+import { useSelector } from "react-redux";
+import useLoadData from "./hooks/useLoadData";
+import FullLoader from "./components/shared/FullLoader"
 
 function Layout() {
+  const isLoading = useLoadData();
   const location = useLocation();
   const hideHeaderRoutes = ["/auth"];
+  const { isAuth } = useSelector(state => state.user);
+
+  if(isLoading) return <FullLoader />
 
   return (
     <>
       {!hideHeaderRoutes.includes(location.pathname) && <Header />}
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/auth" element={<Auth />} />
-        <Route path="/orders" element={<Orders />} />
-        <Route path="/tables" element={<Tables />} />
-        <Route path="/menu" element={<Menu />} />
-        <Route path="*" element={<h1>404 Not Found</h1>} />
+        <Route
+          path="/"
+          element={
+            <ProtectedRoutes>
+              <Home />
+            </ProtectedRoutes>
+          }
+        />
+        <Route path="/auth" element={isAuth ? <Navigate to="/" /> : <Auth />} />
+        <Route
+          path="/orders"
+          element={
+            <ProtectedRoutes>
+              <Orders />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/tables"
+          element={
+            <ProtectedRoutes>
+              <Tables />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/menu"
+          element={
+            <ProtectedRoutes>
+              <Menu />
+            </ProtectedRoutes>
+          }
+        />
+        {/* <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoutes>
+              <Dashboard />
+            </ProtectedRoutes>
+          }
+        /> */}
+        <Route path="*" element={<div>Not Found</div>} />
       </Routes>
     </>
   );
-};
+}
+
+function ProtectedRoutes({ children }) {
+  const { isAuth } = useSelector((state) => state.user);
+  if (!isAuth) {
+    return <Navigate to="/auth" />;
+  }
+
+  return children;
+}
 
 function App() {
   return (

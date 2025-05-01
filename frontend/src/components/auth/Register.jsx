@@ -1,7 +1,9 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
+import { register } from "../../https/index";
+import { useMutation } from "@tanstack/react-query";
+import { enqueueSnackbar } from "notistack";
 
-const Register = () => {
+const Register = ({setIsRegister}) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -10,18 +12,43 @@ const Register = () => {
     role: "",
   });
 
-  const handleRoleSelection = (selectedRole) => {
-    setFormData({ ...formData, role: selectedRole });
-  };
-
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleRoleSelection = (selectedRole) => {
+    setFormData({ ...formData, role: selectedRole });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
+    registerMutation.mutate(formData);
   };
+
+  const registerMutation = useMutation({
+    mutationFn: (reqData) => register(reqData),
+    onSuccess: (res) => {
+      const { data } = res;
+      enqueueSnackbar(data.message, { variant: "success" });
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        password: "",
+        role: "",
+      });
+      
+      setTimeout(() => {
+        setIsRegister(false);
+      }, 1500);
+    },
+    onError: (error) => {
+      const { response } = error;
+      const message = response.data.message;
+      enqueueSnackbar(message, { variant: "error" });
+    },
+  });
+
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -42,7 +69,7 @@ const Register = () => {
           </div>
         </div>
         <div>
-          <label className="block text-[#ababab] mb-2 text-sm font-medium">
+          <label className="block text-[#ababab] mb-2 mt-3 text-sm font-medium">
             Employee Email
           </label>
           <div className="flex items-center rounded-lg p-5 px-4 bg-[#1f1f1f]">
@@ -67,14 +94,14 @@ const Register = () => {
               name="phone"
               value={formData.phone}
               onChange={handleChange}
-              placeholder="Enter employee Phone"
+              placeholder="Enter employee phone"
               className="bg-transparent flex-1 text-white focus:outline-none"
               required
             />
           </div>
         </div>
         <div>
-          <label className="block text-[#ababab] mb-2 text-sm font-medium">
+          <label className="block text-[#ababab] mb-2 mt-3 text-sm font-medium">
             Password
           </label>
           <div className="flex items-center rounded-lg p-5 px-4 bg-[#1f1f1f]">
@@ -83,7 +110,7 @@ const Register = () => {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              placeholder="Enter Password"
+              placeholder="Enter password"
               className="bg-transparent flex-1 text-white focus:outline-none"
               required
             />
@@ -93,8 +120,9 @@ const Register = () => {
           <label className="block text-[#ababab] mb-2 mt-3 text-sm font-medium">
             Choose your role
           </label>
+
           <div className="flex items-center gap-3 mt-4">
-            {["Waiter", "Cashier"].map((role) => {
+            {["Waiter", "Cashier", "Admin"].map((role) => {
               return (
                 <button
                   key={role}
@@ -110,7 +138,11 @@ const Register = () => {
             })}
           </div>
         </div>
-        <button className="w-full rounded-lg mt-6 py-3 text-lg bg-yellow-400 text-gray-900 font-bold">
+
+        <button
+          type="submit"
+          className="w-full rounded-lg mt-6 py-3 text-lg bg-yellow-400 text-gray-900 font-bold"
+        >
           Sign up
         </button>
       </form>
