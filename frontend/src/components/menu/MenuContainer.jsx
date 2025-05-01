@@ -78,7 +78,7 @@ const MenuContainer = () => {
                 className="flex flex-col items-start justify-between p-4 rounded-lg h-[150px] cursor-pointer
               hover:bg-[#2a2a2a] bg-[#1a1a1a]"
               >
-                <div className="flex items-start justify-between">
+                <div className="flex items-start justify-between w-full">
                   <h1 className="text-[#f5f5f5] text-lg font-semibold">
                     {item.name}
                   </h1>

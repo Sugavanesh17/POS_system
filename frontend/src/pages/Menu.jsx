@@ -32,8 +32,12 @@ const Menu = () => {
             <div className="flex items-center gap-3 cursor-pointer">
               <MdRestaurantMenu className="text-[#F5F5F5] text-4xl" />
               <div className="flex flex-col items-start">
-                <h1 className="text-md text-[#F5F5F5]">{customerData.customerName || "Customer name"}</h1>
-                <p className="text-xs text-[#ababab]">{customerData.table || "N/A"}</p>
+                <h1 className="text-md text-[#F5F5F5]">
+                  {customerData.customerName || "Customer name"}
+                </h1>
+                <p className="text-xs text-[#ababab]">
+                  {customerData.table?.tableNo || "N/A"}
+                </p>
               </div>
             </div>
           </div>
