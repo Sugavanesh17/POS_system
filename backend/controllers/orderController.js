@@ -1,5 +1,6 @@
 const createHttpError = require("http-errors");
 const Order = require("../models/orderModel");
+const Table = require("../models/tableModel");
 const { default: mongoose } = require("mongoose");
 
 const addOrder = async (req, res, next) => {
@@ -73,4 +74,35 @@ const updateOrder = async (req, res, next) => {
   }
 };
 
-module.exports = { addOrder, getOrderById, getOrders, updateOrder };
+const deleteOrder = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      const error = createHttpError(404, "Invalid id!");
+      return next(error);
+    }
+
+    const order = await Order.findById(id);
+    if (!order) {
+      const error = createHttpError(404, "Order not found!");
+      return next(error);
+    }
+
+    // Update the associated table to be available and clear currentOrder
+    if (order.table) {
+      await Table.findByIdAndUpdate(order.table, {
+        status: "Available",
+        currentOrder: null,
+      });
+    }
+
+    await Order.findByIdAndDelete(id);
+
+    res.status(200).json({ success: true, message: "Order deleted" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { addOrder, getOrderById, getOrders, updateOrder, deleteOrder };

@@ -32,3 +32,4 @@ export const createOrderRazorpay = (data) =>
 export const verifyPaymentRazorpay = (data) =>
   api.post("/api/payment/verify-payment", data);
 
+export const deleteOrder = (orderId) => api.delete(`/api/order/${orderId}`);

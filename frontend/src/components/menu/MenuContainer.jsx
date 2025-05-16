@@ -1,10 +1,10 @@
+
 import React, { useState } from "react";
 import { menus } from "../../constants";
 import { GrRadialSelected } from "react-icons/gr";
 import { FaShoppingCart } from "react-icons/fa";
-import { useDispatch } from "react-redux";
 import { addItems } from "../../redux/slices/cartSlice";
-
+import { useDispatch } from "react-redux";
 
 const MenuContainer = () => {
   const [selected, setSelected] = useState(menus[0]);
@@ -28,7 +28,7 @@ const MenuContainer = () => {
     if(itemCount === 0) return;
 
     const {name, price} = item;
-    const newObj = { id: new Date(), name, pricePerQuantity: price, quantity: itemCount, price: price * itemCount };
+    const newObj = { id: new Date().toISOString(), name, pricePerQuantity: price, quantity: itemCount, price: price * itemCount };
 
     dispatch(addItems(newObj));
     setItemCount(0);

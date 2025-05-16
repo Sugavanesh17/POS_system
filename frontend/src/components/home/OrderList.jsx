@@ -3,7 +3,7 @@ import { FaCheckDouble, FaLongArrowAltRight } from "react-icons/fa";
 import { FaCircle } from "react-icons/fa";
 import { getAvatarName } from "../../utils/index";
 
-const OrderList = ({ key, order }) => {
+const OrderList = ({ id, order }) => {
   return (
     <div className="flex items-center gap-5 mb-3">
       <button className="bg-[#f6b100] p-3 text-xl font-bold rounded-lg">
@@ -23,7 +23,19 @@ const OrderList = ({ key, order }) => {
         </h1>
 
         <div className="flex flex-col items-end gap-2">
-          {order.orderStatus === "Ready" ? (
+          {order.orderStatus === "In Progress" ? (
+            <>
+              <p className="text-yellow-600 bg-[#4a452e] px-2 py-1 rounded-lg">
+                <FaCircle className="inline mr-2" /> {order.orderStatus}
+              </p>
+            </>
+          ) : order.orderStatus === "Ready" ? (
+            <>
+              <p className="text-blue-600 bg-[#2e4a40] px-2 py-1 rounded-lg">
+                <FaCheckDouble className="inline mr-2" /> {order.orderStatus}
+              </p>
+            </>
+          ) : order.orderStatus === "Completed" ? (
             <>
               <p className="text-green-600 bg-[#2e4a40] px-2 py-1 rounded-lg">
                 <FaCheckDouble className="inline mr-2" /> {order.orderStatus}
@@ -31,7 +43,7 @@ const OrderList = ({ key, order }) => {
             </>
           ) : (
             <>
-              <p className="text-yellow-600 bg-[#4a452e] px-2 py-1 rounded-lg">
+              <p className="text-gray-600 bg-[#4a452e] px-2 py-1 rounded-lg">
                 <FaCircle className="inline mr-2" /> {order.orderStatus}
               </p>
             </>

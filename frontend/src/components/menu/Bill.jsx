@@ -244,6 +244,9 @@ const Bill = () => {
 
       <br />
       <br />
+      <br />
+      <br />
+
       {showInvoice && (
         <Invoice orderInfo={orderInfo} setShowInvoice={setShowInvoice} />
       )}

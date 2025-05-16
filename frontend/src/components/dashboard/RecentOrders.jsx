@@ -1,6 +1,4 @@
 import React from "react";
-import { orders } from "../../constants";
-import { GrUpdate } from "react-icons/gr";
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { enqueueSnackbar } from "notistack";
 import { getOrders, updateOrderStatus } from "../../https/index";
@@ -66,22 +64,27 @@ const RecentOrders = () => {
                 <td className="p-4">#{Math.floor(new Date(order.orderDate).getTime())}</td>
                 <td className="p-4">{order.customerDetails.name}</td>
                 <td className="p-4">
-                  <select
-                    className={`bg-[#1a1a1a] text-[#f5f5f5] border border-gray-500 p-2 rounded-lg focus:outline-none ${
-                      order.orderStatus === "Ready"
-                        ? "text-green-500"
-                        : "text-yellow-500"
-                    }`}
-                    value={order.orderStatus}
-                    onChange={(e) => handleStatusChange({orderId: order._id, orderStatus: e.target.value})}
-                  >
-                    <option className="text-yellow-500" value="In Progress">
-                      In Progress
-                    </option>
-                    <option className="text-green-500" value="Ready">
-                      Ready
-                    </option>
-                  </select>
+                    <select
+                      className={`bg-[#1a1a1a] text-[#f5f5f5] border border-gray-500 p-2 rounded-lg focus:outline-none ${
+                        order.orderStatus === "In Progress"
+                          ? "text-yellow-500"
+                          : order.orderStatus === "Ready"
+                          ? "text-blue-500"
+                          : "text-green-500"
+                      }`}
+                      value={order.orderStatus}
+                      onChange={(e) => handleStatusChange({orderId: order._id, orderStatus: e.target.value})}
+                    >
+                      <option className="text-yellow-500" value="In Progress">
+                        In Progress
+                      </option>
+                      <option className="text-blue-500" value="Ready">
+                        Ready
+                      </option>
+                      <option className="text-green-500" value="Completed">
+                        Completed
+                      </option>
+                    </select>
                 </td>
                 <td className="p-4">{formatDateAndTime(order.orderDate)}</td>
                 <td className="p-4">{order.items.length} Items</td>

@@ -3,7 +3,6 @@ import BottomNav from "../components/shared/BottomNav";
 import BackButton from "../components/shared/BackButton";
 import TableCard from "../components/tables/TableCard";
 import { useState } from "react";
-import { tables } from "../constants";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { getTables } from "../https";
 
